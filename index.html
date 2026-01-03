@@ -1,13 +1,13 @@
-<！doctype html>
-<超文本标记语言 朗="zh-CN">
-<头>
-    <元 字符集="UTF-8">
-    <元 姓名="视口" 内容="width=设备宽度，初始比例=1.0，用户可缩放=无">
-    <!-- QQ卡片预览核心元标签（已替换为你的图片链接） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- QQ卡片预览核心元标签（已替换为你的图片链接和部署地址） -->
     <meta property="og:title" content="QQ亿元现金红包">
     <meta property="og:description" content="上滑抢红包，最高200元现金！">
     <meta property="og:image" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
-    <meta property="og:url" content="https://sinnlego.github.io/-e/redpacket.html"> <!-- 替换为你实际的抢红包页面链接 -->
+    <meta property="og:url" content="https://sinnlego.github.io/wang1/">
     <meta property="og:type" content="article">
     <meta name="thumbnail" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
     <title>QQ红包派发</title>
@@ -183,6 +183,7 @@
         /* 红包展示页面 */
         .result-page {
             width: 100%;
+            height: 1
             height: 100%;
             background: linear-gradient(to bottom, #d81e06, #990000);
             display: none;
@@ -438,73 +439,73 @@
             document.querySelector('.auth-bar').style.display = 'none';
         });
 
-// 15秒倒计时
-常数timeTimer=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{
-计时器--；--；--；--；--；--；--；--；
-timeNum.textContent='${timer}秒'；。textContent=if(计时器<=0){.textContent=if(计时器<=0){.textContent='${timer}秒'；。textContent=if(计时器<=0){.textContent=if(计时器<=0){
-if(计时器<=0){(计时器<=0){
-clearInterval(timeTimer)；
+        // 15秒倒计时
+        const timeTimer = setInterval(() => {
+            timer--;
+            timeNum.textContent = `${timer}秒`;
+            if (timer <= 0) {
+                clearInterval(timeTimer);
             }
-}, 1000);, 1000);, 1000);, 1000);, 1000);, 1000);, 1000);, 1000);
+        }, 1000);
 
-// 监听触摸开始
-redpacketMain.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{
-starty=e.触摸[0].客户端；=e。touchs[0].clienty；=e.touchs[0].clienty；=e.touchs[0].clienty；
-}，{passive:true})；，{passive:true})；，{passive:true})；，{passive:true})；
+        // 监听触摸开始
+        redpacketMain.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        }, { passive: true });
 
-// 监听触摸移动
-redpacketMain.AddEventListener('touchmove'，(e)=>{。addEventListener('touchmove'，(e)=>{.addEventListener('touchmove'，(e)=>{.addEventListener('touchmove'，(e)=>{
-常数movey=e.Touchs[0].clienty；=e.Touchs[0].clienty；
-slideDistance=starty-movy；=starty-movy；
-// 滑动时累计现金
-如果(slideDistance>0&&slideDistance%10===0){
-现金=(现金+0.1).toFixed(2)；
-cashNum.textContent='${现金}现金‘；
-}
-}, { 消极的: 正确 });
+        // 监听触摸移动
+        redpacketMain.addEventListener('touchmove', (e) => {
+            const moveY = e.touches[0].clientY;
+            slideDistance = startY - moveY;
+            // 滑动时累计现金
+            if (slideDistance > 0 && slideDistance % 10 === 0) {
+                cash = (cash + 0.1).toFixed(2);
+                cashNum.textContent = `${cash}现金`;
+            }
+        }, { passive: true });
 
-// 监听触摸结束
-redpacketMain.addEventListener('触摸'，()=>{
-如果(slideDistance>=triggerDistance){
-倒计时掩码.风格.显示='柔性';
-// 生成1-200元随机红包金额
-Const钱=(数学.随机()*199+1).toFixed(2)；
-resultMoney.textContent='￥${钱}‘；
-startCountdown()；
-}
-slideDistance=0；
-});});
+        // 监听触摸结束
+        redpacketMain.addEventListener('touchend', () => {
+            if (slideDistance >= triggerDistance) {
+                countdownMask.style.display = 'flex';
+                // 生成1-200元随机红包金额
+                const money = (Math.random() * 199 + 1).toFixed(2);
+                resultMoney.textContent = `¥ ${money}`;
+                startCountdown();
+            }
+            slideDistance = 0;
+        });
 
-// 3秒开红包倒计时// 3秒开红包倒计时
-<
-设数数=3；让数数=3；让数数=3；=3；让数数=3；=3；让数数=3;
-常数countTimer=setInterval(()=>{常数countTimer=setInterval(()=>{=setInterval()=>{常数countTimer=setInterval(()=>{=setInterval()=>{常数countTimer=setInterval(()=>{=setInterval(()=>{常数countTimer=setInterval(()=>{
-数数--；数数--；--；数数--；--；数数--；--；计数--;
-倒计时NUM.textContent=计数；倒计时Num.textContent=count；.textContent=count；countdownNum.textContent=number；=countdownNum.textContent=count；timalldownNum。textContent=数数；
-如果(数数<=0){如果(数数<=0){(数数<=0){如果(数数<=0){(数数<=0){如果(数数<=0){(数数<=0){如果 (数数<=0) {
-clearInterval(countTimer)；clearInterval(countTimer)；(countTimer)；clearInterval(countTimer)；(countTimer)；clearInterval(countTimer)；(countTimer)；clearInterval(countTimer);
-倒计时掩码。 风格。 显示='无'；倒计时掩码。 风格。 显示='无'；.风格。 显示='无'；倒计时掩码。 风格。 显示='无'；='无'；倒计时掩码。 风格。 显示='无'；.风格.显示='无'；倒计时掩码.风格.显示='无';
-// 触发粒子爆炸特效// 触发粒子爆炸特效
-createParticle()；createParticle()；()；createParticle()；()；createParticle()；()；createParticle()；
-resultPage.风格。显示='柔性'；resultPage.风格。显示='弯曲'；。风格。显示='柔性'；resultPage.风格。显示='柔性'；.风格。显示='柔性'；resultPage.风格。显示='柔性'；.风格.显示='柔性'；resultPage.风格.显示='柔性'；
-}}
-}, 1000);}, 1000);, 1000);}, 1000);, 1000);}, 1000);, 1000);}, 1000);
-}}
+        // 3秒开红包倒计时
+        function startCountdown() {
+            let count = 3;
+            const countTimer = setInterval(() => {
+                count--;
+                countdownNum.textContent = count;
+                if (count <= 0) {
+                    clearInterval(countTimer);
+                    countdownMask.style.display = 'none';
+                    // 触发粒子爆炸特效
+                    createParticles();
+                    resultPage.style.display = 'flex';
+                }
+            }, 1000);
+        }
 
-// 点击提现按钮// 点击提现按钮
-drawestBtn.addEventListener('单击'，()=>{drawestBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{drawestBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{drawestBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{detraceBtn.addEventListener('单击'，()=>{
-groupModal.风格。显示='柔性'；groupModal.风格。显示='弯曲'；。风格。显示='柔性'；groupModal.风格。显示='柔性'；.风格。显示='柔性'；groupModal.风格。显示='柔性'；.风格.显示='柔性'；groupModal.风格.显示='柔性'；
-});});
+        // 点击提现按钮
+        withdrawBtn.addEventListener('click', () => {
+            groupModal.style.display = 'flex';
+        });
 
-// 点击加群按钮// 点击加群按钮
-joinGroupBtn.addEventListener('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{
-窗户。打开(群链，'_空白'，'noopener norferrer’)；窗口.打开(群链，'_空白'，'noopener norferrer')；。打开(组链接，'_空白'，'noopener norferrer’)；窗口.打开(组链接，'_空白'，'noopener norferrer')；。打开(群链，'_空白'，'noopener norferrer’)；窗口.打开(群链，'_空白'，'noopener norferrer')；。打开(群链，'_空白'，'noopener norferrer’)；窗口.打开(群链接，'_空白'，'noopener norferrer’)；
-setTimeout(()=>{setTimeout(()=>{()=>{setTimeout(()=>{(()=>{setTimeout(()=>{(()=>{setTimeout(()=>{
-groupModal.风格。显示='无'；groupModal.风格。显示='无'；.风格.显示='无'；groupModal.风格.显示='无'；.风格。显示='无'；groupModal.风格。显示='无'；.风格.显示='无'；groupModal.风格.显示='无'；
-const money=resultMoney.textContent.替换('￥'，")；const money=resultMoney.textContent.警惕的('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；('￥'，")；const money=resultMoney.textContent.replace('￥'，")；money=resultMoney.TextContent。替换('￥'，")；常量货币=结果货币。textContent。替换('￥'，")；货币=结果货币。textContent。警惕的('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；('￥'，")；const money=resultMoney.textContent.replace('￥'，")；
-alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；
-}, 1500);}, 1500);, 1500);}, 1500);, 1500);}, 1500);, 1500);}, 1500);
-});});
-</脚本>/脚本>/脚本>/脚本>
-</身体>/身体>/身体>/身体>
-</超文本标记语言>/超文本标记语言>/超文本标记语言>/超文本标记语言>
+        // 点击加群按钮
+        joinGroupBtn.addEventListener('click', () => {
+            window.open(groupLink, '_blank', 'noopener noreferrer');
+            setTimeout(() => {
+                groupModal.style.display = 'none';
+                const money = resultMoney.textContent.replace('¥ ', '');
+                alert(`恭喜！提现成功，${money}元已存入你的QQ零钱`);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
