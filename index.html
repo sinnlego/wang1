@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- QQ卡片预览核心元标签（已替换为你的图片链接和部署地址） -->
+    <!-- QQ分享核心配置（必选，确保转发显示图片） -->
     <meta property="og:title" content="QQ亿元现金红包">
-    <meta property="og:description" content="上滑抢红包，最高200元现金！">
+    <meta property="og:description" content="上滑抢现金，转发自动存入零钱">
     <meta property="og:image" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
-    <meta property="og:url" content="https://sinnlego.github.io/wang1/">
+    <meta property="og:url" content="https://sinnlego.github.io/wang1/?v=1">
     <meta property="og:type" content="article">
     <meta name="thumbnail" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
-    <title>QQ红包派发</title>
+    <!-- 微信分享核心配置（兼容微信场景） -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QQ亿元现金红包">
+    <meta name="twitter:description" content="上滑抢现金，转发自动存入零钱">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
+    <meta name="twitter:url" content="https://sinnlego.github.io/wang1/?v=1">
+    <!-- 浏览器图标 -->
     <link rel="icon" href="https://img.icons8.com/fluency/16/000000/red-packet.png" sizes="16x16">
+    <title>QQ红包派发</title>
     <style>
         * {
             margin: 0;
@@ -149,7 +156,7 @@
         /* 粒子特效 */
         .particle {
             position: absolute;
-            width: 20px;
+            width: 20pxpx;
             height: 20px;
             background: url('https://img.icons8.com/fluency/96/ffcc00/coin-yen.png') no-repeat center/contain;
             border-radius: 50%;
@@ -183,7 +190,6 @@
         /* 红包展示页面 */
         .result-page {
             width: 100%;
-            height: 1
             height: 100%;
             background: linear-gradient(to bottom, #d81e06, #990000);
             display: none;
@@ -220,7 +226,22 @@
             font-size: 18px;
             color: #fff;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+        /* 转发/提现按钮 */
+        .share-btn {
+            width: 220px;
+            height: 60px;
+            line-height: 60px;
+            background-color: #12b7f5;
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
         .withdraw-btn {
             width: 220px;
@@ -297,7 +318,7 @@
     </style>
 </head>
 <body>
-    <!-- 顶部导航（去掉爱心） -->
+    <!-- 顶部导航 -->
     <div style="position: absolute; top: 10px; left: 15px; z-index: 20;">
         <a href="javascript:;" style="color: #fff; text-decoration: none; font-size: 16px; display: flex; align-items: center;">← 返回</a>
     </div>
@@ -321,7 +342,7 @@
         </div>
     </div>
 
-    <!-- 活动标题 -->
+    <!-- 活动标题区 -->
     <div class="title-section">
         <div class="main-title">QQ红包派发</div>
         <div class="sub-title">亿元现金大派送</div>
@@ -339,21 +360,22 @@
         <div class="countdown-tips">正在为你开红包...</div>
     </div>
 
-    <!-- 红包结果页面 -->
+    <!-- 红包展示页面 -->
     <div class="result-page" id="resultPage">
         <div class="result-icon"></div>
         <div class="result-title">派发红包啦</div>
         <div class="result-money" id="resultMoney">¥ 61.05</div>
         <div class="result-tips">点击右上角转发到QQ群，自动存入零钱</div>
-        <button class="withdraw-btn" id="withdrawBtn">提现到钱包</button>
+        <button class="share-btn" id="shareBtn">转发好友/群聊</button>
+        <button class="withdraw-btn" id="withdrawBtn">提现需加入QQ群</button>
     </div>
 
     <!-- 加群弹窗 -->
     <div class="group-modal" id="groupModal">
         <div class="modal-content">
-            <h3 class="modal-title">提现需先加入QQ群</h3>
-            <p class="modal-desc">加入指定QQ群后，即可完成提现，金额将自动存入你的QQ零钱</p>
-            <button class="join-group-btn" id="joinGroupBtn">点击加入指定QQ群</button>
+            <h3 class="modal-title">领取福利需加入QQ群</h3>
+            <p class="modal-desc">加入指定QQ群后，即可完成提现，金额自动存入QQ零钱</p>
+            <button class="join-group-btn" id="joinGroupBtn">点击加入QQ群</button>
         </div>
     </div>
 
@@ -370,16 +392,17 @@
         const withdrawBtn = document.getElementById('withdrawBtn');
         const groupModal = document.getElementById('groupModal');
         const joinGroupBtn = document.getElementById('joinGroupBtn');
+        const shareBtn = document.getElementById('shareBtn');
         
-        // 加群链接
+        // 加群链接（替换为你的QQ群分享链接）
         const groupLink = "https://qun.qq.com/universal-share/share?ac=1&authKey=bYb8EJ1QBPIDcR6%2BulfbdJc2BulfbdJcmlgyijre3orNOLC8TDHccx6LEJ7sXPnfiYR%2Bf2uij&busi_data=eyJncm91cENvZGUiOiIxMDczODIyMjYxIiwidG9rZW4iOiJGMDZDbjlrOE1zNU5sQ3RYSU9zRE8wcjc4TmtodDBZcUVZUGxpTlZjcmxsb2RRVG1rWmJNZE1zSGJhRTYvUmNjIiwidWluIjoiMTYxOTc0NjIwOSJ9&data=yVbhv7cfq8Lgkkiy7qc9oC7iLg6IxIyohBxUXDVgn4yWhvBZC-f_jAfSNGd-Zb-Vj1v4TtHPTHbM_Dut30FsQg&svctype=4&tempid=h5_group_info";
 
         // 滑动相关变量
         let startY = 0;
         let slideDistance = 0;
-        const triggerDistance = 50; // 触发开红包的滑动距离
+        const triggerDistance = 50; // 触发抢红包的滑动距离
         let timer = 15; // 倒计时秒数
-        let cash = 0.00; // 累计现金
+        let cash = 0.00; // 现金金额
 
         // 生成金币装饰
         function createCoin() {
@@ -405,32 +428,22 @@
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                document.body.appendChild(particle);
-
-                // 随机角度和距离
                 const angle = Math.random() * Math.PI * 2;
                 const distance = Math.random() * 200 + 50;
                 const x = centerX + Math.cos(angle) * distance;
                 const y = centerY + Math.sin(angle) * distance;
 
-                // 初始位置
-                particle.style.left = centerX + 'px';
-                particle.style.top = centerY + 'px';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
                 particle.style.opacity = '1';
+                const duration = Math.random() * 1000 + 500;
+                particle.style.transition = `opacity ${duration}ms ease-out`;
+                document.body.appendChild(particle);
 
-                // 动画
-                particle.animate([
-                    { left: centerX + 'px', top: centerY + 'px', opacity: 1 },
-                    { left: x + 'px', top: y + 'px', opacity: 0 }
-                ], {
-                    duration: Math.random() * 1000 + 500,
-                    easing: 'cubic-bezier(0.17, 0.67, 0.83, 0.67)'
-                });
-
-                // 移除粒子
                 setTimeout(() => {
-                    document.body.removeChild(particle);
-                }, 1500);
+                    particle.style.opacity = '0';
+                    setTimeout(() => document.body.removeChild(particle), duration);
+                }, 100);
             }
         }
 
@@ -468,7 +481,7 @@
         redpacketMain.addEventListener('touchend', () => {
             if (slideDistance >= triggerDistance) {
                 countdownMask.style.display = 'flex';
-                // 生成1-200元随机红包金额
+                // 生成1-200元随机金额
                 const money = (Math.random() * 199 + 1).toFixed(2);
                 resultMoney.textContent = `¥ ${money}`;
                 startCountdown();
@@ -485,19 +498,18 @@
                 if (count <= 0) {
                     clearInterval(countTimer);
                     countdownMask.style.display = 'none';
-                    // 触发粒子爆炸特效
-                    createParticles();
+                    createParticles(); // 触发粒子特效
                     resultPage.style.display = 'flex';
                 }
             }, 1000);
         }
 
-        // 点击提现按钮
+        // 点击提现按钮（打开加群弹窗）
         withdrawBtn.addEventListener('click', () => {
             groupModal.style.display = 'flex';
         });
 
-        // 点击加群按钮
+        // 点击加入QQ群按钮
         joinGroupBtn.addEventListener('click', () => {
             window.open(groupLink, '_blank', 'noopener noreferrer');
             setTimeout(() => {
@@ -505,6 +517,29 @@
                 const money = resultMoney.textContent.replace('¥ ', '');
                 alert(`恭喜！提现成功，${money}元已存入你的QQ零钱`);
             }, 1500);
+        });
+
+        // 转发按钮（唤起QQ原生分享，确保显示图片卡片）
+        shareBtn.addEventListener('click', () => {
+            const shareData = {
+                url: 'https://sinnlego.github.io/wang1/?v=1', // 固定你的活动链接
+                title: 'QQ亿元现金红包',
+                desc: '上滑抢现金，转发自动存入零钱',
+                imgUrl: 'https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png'
+            };
+            // QQ Scheme协议唤起原生分享
+            const qqShareUrl = `mqqapi://share/to_fri?src_type=web&version=1&file_type=news&req_type=1&image_url=${encodeURIComponent(shareData.imgUrl)}&title=${encodeURIComponent(shareData.title)}&description=${encodeURIComponent(shareData.desc)}&url=${encodeURIComponent(shareData.url)}&app_name=QQ红包派发`;
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = qqShareUrl;
+            document.body.appendChild(iframe);
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                // 非QQ环境提示
+                if (!/QQ/i.test(navigator.userAgent)) {
+                    alert('请用QQ浏览器或手机QQ打开，转发即可显示红包图片');
+                }
+            }, 1000);
         });
     </script>
 </body>
