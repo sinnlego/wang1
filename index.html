@@ -1,0 +1,510 @@
+<！doctype html>
+<超文本标记语言 朗="zh-CN">
+<头>
+    <元 字符集="UTF-8">
+    <元 姓名="视口" 内容="width=设备宽度，初始比例=1.0，用户可缩放=无">
+    <!-- QQ卡片预览核心元标签（已替换为你的图片链接） -->
+    <meta property="og:title" content="QQ亿元现金红包">
+    <meta property="og:description" content="上滑抢红包，最高200元现金！">
+    <meta property="og:image" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
+    <meta property="og:url" content="https://sinnlego.github.io/-e/redpacket.html"> <!-- 替换为你实际的抢红包页面链接 -->
+    <meta property="og:type" content="article">
+    <meta name="thumbnail" content="https://raw.githubusercontent.com/sinnlego/-e/0ce818bf8c565ebb5b31e9170f27ec837206242f/resized-image-300x300.png">
+    <title>QQ红包派发</title>
+    <link rel="icon" href="https://img.icons8.com/fluency/16/000000/red-packet.png" sizes="16x16">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #d81e06, #990000);
+            overflow: hidden;
+            position: relative;
+        }
+        /* 顶部认证条 */
+        .auth-bar {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            background-color: rgba(0,0,0,0.5);
+            text-align: center;
+            font-size: 14px;
+            color: #00ff00;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            z-index: 10;
+        }
+        .auth-close {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            color: #fff;
+            cursor: pointer;
+        }
+        /* 顶部信息栏 */
+        .top-info {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            z-index: 10;
+        }
+        .cash-box, .time-box {
+            background-color: #ffcc00;
+            border: 2px solid #fff;
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .cash-icon, .time-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+        }
+        .cash-icon {
+            background: url('https://img.icons8.com/fluency/96/000000/yen-symbol.png') no-repeat center/contain;
+        }
+        .time-icon {
+            background: url('https://img.icons8.com/fluency/96/000000/clock.png') no-repeat center/contain;
+        }
+        .cash-num, .time-num {
+            font-size: 16px;
+            color: #d81e06;
+            font-weight: bold;
+        }
+        /* 活动标题区 */
+        .title-section {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+        .main-title {
+            font-size: 36px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 10px #d81e06;
+            margin-bottom: 10px;
+        }
+        .sub-title {
+            font-size: 24px;
+            color: #d81e06;
+            background-color: #ffcc00;
+            padding: 5px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+        }
+        /* 红包主体 */
+        .redpacket-main {
+            width: 80%;
+            height: 500px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: url('https://img.baidu.com/it/u=3092169222,2051021195&fm=253&fmt=auto&app=138&f=JPEG?w=300&h=500') no-repeat center/contain;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide-arrow {
+            width: 40px;
+            height: 40px;
+            background: url('https://img.icons8.com/fluency/96/fff/up-arrow.png') no-repeat center/contain;
+            margin-bottom: 20px;
+            animation: arrowBounce 1.5s infinite;
+        }
+        .slide-tip {
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 5px #000;
+        }
+        /* 金币装饰 */
+        .coin {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: url('https://img.icons8.com/fluency/96/ffcc00/coin-yen.png') no-repeat center/contain;
+            z-index: 5;
+            pointer-events: none;
+            animation: coinFall linear infinite;
+        }
+        /* 粒子特效 */
+        .particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('https://img.icons8.com/fluency/96/ffcc00/coin-yen.png') no-repeat center/contain;
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        /* 倒计时遮罩 */
+        .countdown-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .countdown-text {
+            font-size: 80px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .countdown-tips {
+            font-size: 20px;
+            color: #fff;
+        }
+        /* 红包展示页面 */
+        .result-page {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #d81e06, #990000);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            padding: 20px;
+        }
+        .result-icon {
+            width: 100px;
+            height: 100px;
+            background: url('https://img.icons8.com/fluency/96/fff/yen-symbol.png') no-repeat center/contain;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            margin-bottom: 30px;
+        }
+        .result-title {
+            font-size: 30px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .result-money {
+            font-size: 72px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .result-tips {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .withdraw-btn {
+            width: 220px;
+            height: 60px;
+            line-height: 60px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 30px;
+            color: #d81e06;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        /* 加群弹窗 */
+        .group-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 20px;
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        .modal-title {
+            font-size: 24px;
+            color: #d81e06;
+            margin-bottom: 20px;
+        }
+        .modal-desc {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .join-group-btn {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            background-color: #12b7f5;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        /* 动画 */
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes coinFall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航（去掉爱心） -->
+    <div style="position: absolute; top: 10px; left: 15px; z-index: 20;">
+        <a href="javascript:;" style="color: #fff; text-decoration: none; font-size: 16px; display: flex; align-items: center;">← 返回</a>
+    </div>
+    <div style="position: absolute; top: 10px; right: 15px; z-index: 20; color: #fff; font-size: 20px;">···</div>
+
+    <!-- 认证条 -->
+    <div class="auth-bar">
+        活动经官方认证，真实有效！
+        <span class="auth-close" id="authClose">×</span>
+    </div>
+
+    <!-- 顶部信息栏 -->
+    <div class="top-info">
+        <div class="cash-box">
+            <div class="cash-icon"></div>
+            <div class="cash-num" id="cashNum">0.00现金</div>
+        </div>
+        <div class="time-box">
+            <div class="time-icon"></div>
+            <div class="time-num" id="timeNum">15秒</div>
+        </div>
+    </div>
+
+    <!-- 活动标题 -->
+    <div class="title-section">
+        <div class="main-title">QQ红包派发</div>
+        <div class="sub-title">亿元现金大派送</div>
+    </div>
+
+    <!-- 红包主体 -->
+    <div class="redpacket-main" id="redpacketMain">
+        <div class="slide-arrow"></div>
+        <div class="slide-tip">上滑抢现金</div>
+    </div>
+
+    <!-- 倒计时遮罩 -->
+    <div class="countdown-mask" id="countdownMask">
+        <div class="countdown-text" id="countdownNum">3</div>
+        <div class="countdown-tips">正在为你开红包...</div>
+    </div>
+
+    <!-- 红包结果页面 -->
+    <div class="result-page" id="resultPage">
+        <div class="result-icon"></div>
+        <div class="result-title">派发红包啦</div>
+        <div class="result-money" id="resultMoney">¥ 61.05</div>
+        <div class="result-tips">点击右上角转发到QQ群，自动存入零钱</div>
+        <button class="withdraw-btn" id="withdrawBtn">提现到钱包</button>
+    </div>
+
+    <!-- 加群弹窗 -->
+    <div class="group-modal" id="groupModal">
+        <div class="modal-content">
+            <h3 class="modal-title">提现需先加入QQ群</h3>
+            <p class="modal-desc">加入指定QQ群后，即可完成提现，金额将自动存入你的QQ零钱</p>
+            <button class="join-group-btn" id="joinGroupBtn">点击加入指定QQ群</button>
+        </div>
+    </div>
+
+    <script>
+        // 元素获取
+        const authClose = document.getElementById('authClose');
+        const cashNum = document.getElementById('cashNum');
+        const timeNum = document.getElementById('timeNum');
+        const redpacketMain = document.getElementById('redpacketMain');
+        const countdownMask = document.getElementById('countdownMask');
+        const countdownNum = document.getElementById('countdownNum');
+        const resultPage = document.getElementById('resultPage');
+        const resultMoney = document.getElementById('resultMoney');
+        const withdrawBtn = document.getElementById('withdrawBtn');
+        const groupModal = document.getElementById('groupModal');
+        const joinGroupBtn = document.getElementById('joinGroupBtn');
+        
+        // 加群链接
+        const groupLink = "https://qun.qq.com/universal-share/share?ac=1&authKey=bYb8EJ1QBPIDcR6%2BulfbdJc2BulfbdJcmlgyijre3orNOLC8TDHccx6LEJ7sXPnfiYR%2Bf2uij&busi_data=eyJncm91cENvZGUiOiIxMDczODIyMjYxIiwidG9rZW4iOiJGMDZDbjlrOE1zNU5sQ3RYSU9zRE8wcjc4TmtodDBZcUVZUGxpTlZjcmxsb2RRVG1rWmJNZE1zSGJhRTYvUmNjIiwidWluIjoiMTYxOTc0NjIwOSJ9&data=yVbhv7cfq8Lgkkiy7qc9oC7iLg6IxIyohBxUXDVgn4yWhvBZC-f_jAfSNGd-Zb-Vj1v4TtHPTHbM_Dut30FsQg&svctype=4&tempid=h5_group_info";
+
+        // 滑动相关变量
+        let startY = 0;
+        let slideDistance = 0;
+        const triggerDistance = 50; // 触发开红包的滑动距离
+        let timer = 15; // 倒计时秒数
+        let cash = 0.00; // 累计现金
+
+        // 生成金币装饰
+        function createCoin() {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            const left = Math.random() * 100;
+            const duration = Math.random() * 3 + 2;
+            coin.style.left = left + 'vw';
+            coin.style.animationDuration = duration + 's';
+            document.body.appendChild(coin);
+            setTimeout(() => {
+                document.body.removeChild(coin);
+            }, duration * 1000);
+        }
+        setInterval(createCoin, 300);
+
+        // 粒子爆炸特效
+        function createParticles() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                document.body.appendChild(particle);
+
+                // 随机角度和距离
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 200 + 50;
+                const x = centerX + Math.cos(angle) * distance;
+                const y = centerY + Math.sin(angle) * distance;
+
+                // 初始位置
+                particle.style.left = centerX + 'px';
+                particle.style.top = centerY + 'px';
+                particle.style.opacity = '1';
+
+                // 动画
+                particle.animate([
+                    { left: centerX + 'px', top: centerY + 'px', opacity: 1 },
+                    { left: x + 'px', top: y + 'px', opacity: 0 }
+                ], {
+                    duration: Math.random() * 1000 + 500,
+                    easing: 'cubic-bezier(0.17, 0.67, 0.83, 0.67)'
+                });
+
+                // 移除粒子
+                setTimeout(() => {
+                    document.body.removeChild(particle);
+                }, 1500);
+            }
+        }
+
+        // 关闭认证条
+        authClose.addEventListener('click', () => {
+            document.querySelector('.auth-bar').style.display = 'none';
+        });
+
+// 15秒倒计时
+常数timeTimer=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{=setInterval(()=>{
+计时器--；--；--；--；--；--；--；--；
+timeNum.textContent='${timer}秒'；。textContent=if(计时器<=0){.textContent=if(计时器<=0){.textContent='${timer}秒'；。textContent=if(计时器<=0){.textContent=if(计时器<=0){
+if(计时器<=0){(计时器<=0){
+clearInterval(timeTimer)；
+            }
+}, 1000);, 1000);, 1000);, 1000);, 1000);, 1000);, 1000);, 1000);
+
+// 监听触摸开始
+redpacketMain.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{.AddEventListener('touchstart'，(e)=>{.addEventListener('touchstart'，(e)=>{
+starty=e.触摸[0].客户端；=e。touchs[0].clienty；=e.touchs[0].clienty；=e.touchs[0].clienty；
+}，{passive:true})；，{passive:true})；，{passive:true})；，{passive:true})；
+
+// 监听触摸移动
+redpacketMain.AddEventListener('touchmove'，(e)=>{。addEventListener('touchmove'，(e)=>{.addEventListener('touchmove'，(e)=>{.addEventListener('touchmove'，(e)=>{
+常数movey=e.Touchs[0].clienty；=e.Touchs[0].clienty；
+slideDistance=starty-movy；=starty-movy；
+// 滑动时累计现金
+如果(slideDistance>0&&slideDistance%10===0){
+现金=(现金+0.1).toFixed(2)；
+cashNum.textContent='${现金}现金‘；
+}
+}, { 消极的: 正确 });
+
+// 监听触摸结束
+redpacketMain.addEventListener('触摸'，()=>{
+如果(slideDistance>=triggerDistance){
+倒计时掩码.风格.显示='柔性';
+// 生成1-200元随机红包金额
+Const钱=(数学.随机()*199+1).toFixed(2)；
+resultMoney.textContent='￥${钱}‘；
+startCountdown()；
+}
+slideDistance=0；
+});});
+
+// 3秒开红包倒计时// 3秒开红包倒计时
+<
+设数数=3；让数数=3；让数数=3；=3；让数数=3；=3；让数数=3;
+常数countTimer=setInterval(()=>{常数countTimer=setInterval(()=>{=setInterval()=>{常数countTimer=setInterval(()=>{=setInterval()=>{常数countTimer=setInterval(()=>{=setInterval(()=>{常数countTimer=setInterval(()=>{
+数数--；数数--；--；数数--；--；数数--；--；计数--;
+倒计时NUM.textContent=计数；倒计时Num.textContent=count；.textContent=count；countdownNum.textContent=number；=countdownNum.textContent=count；timalldownNum。textContent=数数；
+如果(数数<=0){如果(数数<=0){(数数<=0){如果(数数<=0){(数数<=0){如果(数数<=0){(数数<=0){如果 (数数<=0) {
+clearInterval(countTimer)；clearInterval(countTimer)；(countTimer)；clearInterval(countTimer)；(countTimer)；clearInterval(countTimer)；(countTimer)；clearInterval(countTimer);
+倒计时掩码。 风格。 显示='无'；倒计时掩码。 风格。 显示='无'；.风格。 显示='无'；倒计时掩码。 风格。 显示='无'；='无'；倒计时掩码。 风格。 显示='无'；.风格.显示='无'；倒计时掩码.风格.显示='无';
+// 触发粒子爆炸特效// 触发粒子爆炸特效
+createParticle()；createParticle()；()；createParticle()；()；createParticle()；()；createParticle()；
+resultPage.风格。显示='柔性'；resultPage.风格。显示='弯曲'；。风格。显示='柔性'；resultPage.风格。显示='柔性'；.风格。显示='柔性'；resultPage.风格。显示='柔性'；.风格.显示='柔性'；resultPage.风格.显示='柔性'；
+}}
+}, 1000);}, 1000);, 1000);}, 1000);, 1000);}, 1000);, 1000);}, 1000);
+}}
+
+// 点击提现按钮// 点击提现按钮
+drawestBtn.addEventListener('单击'，()=>{drawestBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{drawestBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{drawestBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{detraceBtn.addEventListener('单击'，()=>{
+groupModal.风格。显示='柔性'；groupModal.风格。显示='弯曲'；。风格。显示='柔性'；groupModal.风格。显示='柔性'；.风格。显示='柔性'；groupModal.风格。显示='柔性'；.风格.显示='柔性'；groupModal.风格.显示='柔性'；
+});});
+
+// 点击加群按钮// 点击加群按钮
+joinGroupBtn.addEventListener('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{.addEventListener('单击'，()=>{joinGroupBtn.addEventListener('单击'，()=>{
+窗户。打开(群链，'_空白'，'noopener norferrer’)；窗口.打开(群链，'_空白'，'noopener norferrer')；。打开(组链接，'_空白'，'noopener norferrer’)；窗口.打开(组链接，'_空白'，'noopener norferrer')；。打开(群链，'_空白'，'noopener norferrer’)；窗口.打开(群链，'_空白'，'noopener norferrer')；。打开(群链，'_空白'，'noopener norferrer’)；窗口.打开(群链接，'_空白'，'noopener norferrer’)；
+setTimeout(()=>{setTimeout(()=>{()=>{setTimeout(()=>{(()=>{setTimeout(()=>{(()=>{setTimeout(()=>{
+groupModal.风格。显示='无'；groupModal.风格。显示='无'；.风格.显示='无'；groupModal.风格.显示='无'；.风格。显示='无'；groupModal.风格。显示='无'；.风格.显示='无'；groupModal.风格.显示='无'；
+const money=resultMoney.textContent.替换('￥'，")；const money=resultMoney.textContent.警惕的('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；('￥'，")；const money=resultMoney.textContent.replace('￥'，")；money=resultMoney.TextContent。替换('￥'，")；常量货币=结果货币。textContent。替换('￥'，")；货币=结果货币。textContent。警惕的('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；('￥'，")；const money=resultMoney.textContent.replace('￥'，")；
+alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；alert('恭喜！提现成功，${money}元已存入你的QQ零钱')；
+}, 1500);}, 1500);, 1500);}, 1500);, 1500);}, 1500);, 1500);}, 1500);
+});});
+</脚本>/脚本>/脚本>/脚本>
+</身体>/身体>/身体>/身体>
+</超文本标记语言>/超文本标记语言>/超文本标记语言>/超文本标记语言>
